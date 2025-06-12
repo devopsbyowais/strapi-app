@@ -6,23 +6,24 @@ ENV CI=true
 # Set working directory
 WORKDIR /app
 
-# Install system deps
+# Install system dependencies
 RUN apt-get update && apt-get install -y python3 make g++ && rm -rf /var/lib/apt/lists/*
 
-# Copy only lockfiles & manifests first for layer caching
-COPY package.json yarn.lock ./
+# Copy only lockfiles & manifests first for better caching
+COPY package.json package-lock.json ./
 
-# Run yarn with network timeout and retry settings
-RUN yarn install --network-timeout 600000 || yarn install --network-timeout 600000
+# Install dependencies using npm
+RUN npm ci
 
-# Copy all remaining files
+# Copy all project files
 COPY . .
 
 # Build the project
-RUN yarn build
+RUN npm run build
 
 # Expose Strapi default port
 EXPOSE 1337
 
 # Start the app
-CMD ["yarn", "start"]
+CMD ["npm", "start"]
+

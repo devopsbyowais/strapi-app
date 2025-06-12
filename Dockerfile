@@ -25,4 +25,4 @@ RUN npm run build
 EXPOSE 1337
 
 # Start the app
-CMD ["yarn", "start"]
+CMD ["npm", "start"]

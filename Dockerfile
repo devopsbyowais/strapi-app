@@ -26,4 +26,3 @@ EXPOSE 1337
 
 # Start the app
 CMD ["npm", "start"]
-
